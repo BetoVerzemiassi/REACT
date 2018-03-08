@@ -1,6 +1,8 @@
 # REACT
 Construindo aplicação com React - Estudo
 
+# Aula 01 - Criando e Configurando o Projeto
+
 # Instalação
 
 * NodeJS
@@ -19,3 +21,11 @@ Construindo aplicação com React - Estudo
 
 * O código de Back-End da API que vai ser consumida pela aplicação está disponível em [GitHub](https://github.com/alberto-alura/cdcadmin-api)
 
+
+# Aula 02 - Definindo a estrutura do html do cadastro de autor
+
+* Utilização do projeto [Pure CSS](https://purecss.io/start/)
+
+* Layout com navegação no menu lateral esquerda, enquanto o cadastro estará no conteúdo central da página.
+
+* Começamos a mexer com o React, herdamos de `Components`, pedimos para `ReactDOM` renderizar.

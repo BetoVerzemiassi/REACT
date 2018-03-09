@@ -29,3 +29,15 @@ Construindo aplicação com React - Estudo
 * Layout com navegação no menu lateral esquerda, enquanto o cadastro estará no conteúdo central da página.
 
 * Começamos a mexer com o React, herdamos de `Components`, pedimos para `ReactDOM` renderizar.
+
+# Aula 03 - Consumindo a API e dando vida a nossa listagem
+
+* O React fornece funções que serão chamadas em determinados ciclos de vida do componente. Uma delas é
+`componentWillMount()` usada quando o componente acabou de ser montado. Ela será chamada logo após o
+método `render()` ser invocado pela primeira vez.
+
+* O `componentWillMount()` não executa nenhuma lógica, não faz nenhuma preparação de informações que ficarão
+armazenadas no estado do componente que já poderá ser aproveitada para primeira invocação do `render()`.
+
+* Conforme o projeto evoluir e ficar maior, pode ser necessário utilizar funções do ciclo de vida, como a
+`shouldComponentUpdate`. Ela indica para o React se seu componente deve ser renderizado e por defaut retorna true.

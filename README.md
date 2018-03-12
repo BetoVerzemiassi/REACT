@@ -41,3 +41,5 @@ armazenadas no estado do componente que já poderá ser aproveitada para primeir
 
 * Conforme o projeto evoluir e ficar maior, pode ser necessário utilizar funções do ciclo de vida, como a
 `shouldComponentUpdate`. Ela indica para o React se seu componente deve ser renderizado e por defaut retorna true.
+
+# Aula 04: Cadastrando novos autores e atualização de componentes

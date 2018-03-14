@@ -43,3 +43,5 @@ armazenadas no estado do componente que já poderá ser aproveitada para primeir
 `shouldComponentUpdate`. Ela indica para o React se seu componente deve ser renderizado e por defaut retorna true.
 
 # Aula 04: Cadastrando novos autores e atualização de componentes
+
+# Aula 05: Isolando os componentes do Autor e melhorando a comunicação entre eles

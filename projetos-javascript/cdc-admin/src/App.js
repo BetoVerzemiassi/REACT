@@ -4,7 +4,7 @@ import './css/pure-min.css';
 import './css/side-menu.css';
 import $ from 'jquery';
 import InputCustomizado from './componentes/InputCustomizado';
-import {FormularioAutor,TabelaAutores} from './Autor';//Importamos duas novas classes do módulo Autor.
+import AutorBox from './Autor';//Importamos duas novas classes do módulo Autor.
 
 class App extends Component {
   render() {
@@ -30,7 +30,7 @@ class App extends Component {
 					<h1>Cadastro de Autores</h1>
 				</div>
 				<div className="content" id="content">
-
+					<AutorBox/>
 				</div>
 			</div>
 		</div>

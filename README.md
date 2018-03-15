@@ -45,3 +45,11 @@ armazenadas no estado do componente que já poderá ser aproveitada para primeir
 # Aula 04: Cadastrando novos autores e atualização de componentes
 
 # Aula 05: Isolando os componentes do Autor e melhorando a comunicação entre eles
+
+* **lista={this.state.lista}** = Declara que a tabela de autores depende da variável lista que está no state do AutorBox
+* **props** = Argumentos que passamos para dentro de um componente ficam disponíveis na variável props, possui um JSON criado dinamicamente.
+
+* Criamos a função atualizaListage, que receberá como argumento a novaLista. Dentro adicionaremos o setState() e passaremos o lista que deverá ser a novaLista.
+
+* **Higher-order Components** São os componentes responsáveis por encapsular um estado que será trabalhado por vários outros componentes e que comumente nomeamos
+utilizando o sufixo `Box`.  Depois, criá-lo, podemos passá-lo como argumento.

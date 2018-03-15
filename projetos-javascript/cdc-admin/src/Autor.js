@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import InputCustomizado from './componentes/InputCustomizado';
 
-export class FormularioAutor extends Component{
+class FormularioAutor extends Component{
 
     constructor() {
 		super();
@@ -28,7 +28,9 @@ export class FormularioAutor extends Component{
 				senha: this.state.senha
 			}),
 			success: function(resposta){
-				this.setState({lista: resposta});
+                // this.setState({lista: resposta});//irá alterar o estado do componente FormularioAutor
+                /*Dentro do setstate temos um JSON com a variável lista e a resposta que é a nova listagem*/
+                this.props.callbackAtualizaListagem(resposta);
 			}.bind(this),//bind chamado para trabalhar com o this do react
 			error: function(resposta){
 				console.log("erro");
@@ -67,26 +69,7 @@ export class FormularioAutor extends Component{
     }
 }
 
-export class TabelaAutores extends Component {
-
-    constructor() {
-		super();
-		this.state = {lista : []};
-	}
-
-
-	//chamada antes de invocar o render pela primeira vez
-	componentWillMount(){
-		$.ajax({
-				url:'http://localhost:8080/api/autores',
-				dataType: 'json',
-				success:function(resposta){
-					console.log(this);
-					this.setState({lista:resposta});
-				}.bind(this)
-			}
-		);
-	}
+class TabelaAutores extends Component {
 
     render(){
         return(
@@ -115,3 +98,49 @@ export class TabelaAutores extends Component {
         );
     }
 }
+
+export default class AutorBox extends Component {
+
+    constructor() {
+		super();
+        this.state = {lista : []};
+        this.atualizaListagem = this.atualizaListagem.bind(this);//Informamos no contrutor que a função atualizaListagem usará o this do React
+	}
+
+
+	//chamada antes de invocar o render pela primeira vez
+	componentWillMount(){
+		$.ajax({
+				url:'http://localhost:8080/api/autores',
+				dataType: 'json',
+				success:function(resposta){
+					console.log(this);
+					this.setState({lista:resposta});
+				}.bind(this)
+			}
+		);
+    }
+
+    /*
+    Criamos a função atualizaListage, que receberá como argumento a novaLista.
+    Dentro adicionaremos o setState() e passaremos o lista que deverá ser a
+    novaLista.
+    */
+    atualizaListagem(novaLista){
+        this.setState({lista:novaLista});
+    }
+
+    render(){
+        return(
+            <div>
+                <FormularioAutor callbackAtualizaListagem={this.atualizaListagem}/>
+                <TabelaAutores lista={this.state.lista}/>
+            </div>
+        )
+    }
+}
+
+/*
+lista={this.state.lista} = Declara que a tabela de autores depende da variável lista que está no state do AutorBox
+props = Argumentos que passamos para dentro de um componente ficam disponíveis na variável props, possui um JSON criado dinamicamente.
+*/

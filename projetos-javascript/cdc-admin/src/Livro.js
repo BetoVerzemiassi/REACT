@@ -4,6 +4,85 @@ import InputCustomizado from './componentes/InputCustomizado';
 import PubSub from 'pubsub-js';
 import TratadorErros from './TratadorErros';
 
+class FormularioLivro extends Component{
+
+    constructor() {
+		super();
+		this.state = {titulo : '',preco: '',autorId: ''};
+		this.enviaForm = this.enviaForm.bind(this);
+        this.setTitulo = this.setTitulo.bind(this);
+        this.setPreco = this.setPreco.bind(this);
+        this.setAutorId = this.setAutorId.bind(this);
+    }
+
+    enviaForm(evento){
+		evento.preventDefault();
+
+		$.ajax({
+			url: 'http://localhost:8080/api/livros',
+			contentType: 'application/json',
+			dataType: 'json',
+			type: 'post',
+			data: JSON.stringify({
+				titulo: this.state.titulo,
+				preco: this.state.preco,
+				autorId: this.state.autorId
+			}),
+			success: function(novalistagem){
+                PubSub.publish('atualiza-lista-livros',novalistagem);
+                this.setState({titulo:'',preco:'',autorId:''});
+			}.bind(this),
+			error: function(resposta){
+                if(resposta.status === 400){
+                    new TratadorErros().publicaErros(resposta.responseJSON);
+                }
+            },
+            beforeSend: function(){
+                PubSub.publish("limpa-erros",{});
+            }
+		});
+	}
+
+	/*Pegando informações de dentro de inputs com React*/
+	setTitulo(evento){
+		this.setState({titulo: evento.target.value});
+	}
+
+	setPreco(evento){
+		this.setState({preco: evento.target.value});
+	}
+
+	setAutorId(evento){
+		this.setState({autorId: evento.target.value});
+	}
+
+    //Se temos um componente e queremos que ele retorne um HTML que será colocado na View, precisamos utilziar a função render()
+    render(){
+        return(
+            <div className="pure-form pure-form-aligned">
+                <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm.bind(this)} method="post">
+                    <InputCustomizado id="titulo" type="text" name="titulo" value={this.state.titulo} onChange={this.setTitulo} label="Titulo"/>
+                    <InputCustomizado id="preco" type="text" name="preco" value={this.state.preco} onChange={this.setPreco} label="Preco"/>
+                    <div className="pure-control-group">
+                        <label htmlFor="autorId">Autor</label>
+                        <select value={this.state.autorId} name="autorId" id="autorId" onChange={this.setAutorId}>
+                            <option value="">Selecione autor</option>
+                            {
+                                this.props.autores.map(function(autor){
+                                    return <option value={autor.id}>{autor.nome}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="pure-control-group">
+                        <label></label>
+                        <button type="submit" className="pure-button pure-button-primary">Gravar</button>
+                    </div>
+                </form>
+            </div>
+        );
+    }
+}
 class TabelaLivros extends Component {
 
     render(){
@@ -40,7 +119,10 @@ export default class LivroBox extends Component {
 
     constructor() {
 		super();
-        this.state = {lista : []};
+        this.state = {
+            lista : [],
+            autores: []
+        };
 	}
 
     componentWillMount(){
@@ -53,6 +135,16 @@ export default class LivroBox extends Component {
 				}.bind(this)
 			}
         );
+
+        $.ajax({
+            url:'http://localhost:8080/api/autores',
+            dataType: 'json',
+            success:function(resposta){
+                console.log(this);
+                this.setState({autores:resposta});
+            }.bind(this)
+        }
+    );
 
         PubSub.subscribe('atualiza-lista-livros', function (topico, novalistagem) {
             this.setState({
@@ -68,6 +160,7 @@ export default class LivroBox extends Component {
                     <h1>Cadastro de Livros</h1>
                 </div>
                 <div className="content" id="content">
+                    <FormularioLivro autores={this.state.autores}/>
                     <TabelaLivros lista={this.state.lista}/>
                 </div>
             </div>

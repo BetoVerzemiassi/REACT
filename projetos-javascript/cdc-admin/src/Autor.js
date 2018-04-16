@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import InputCustomizado from './componentes/InputCustomizado';
+import PubSub from 'pubsub-js';
 
 class FormularioAutor extends Component{
 
@@ -27,11 +28,12 @@ class FormularioAutor extends Component{
 				email: this.state.email,
 				senha: this.state.senha
 			}),
-			success: function(resposta){
+			success: function(novalistagem){
+                PubSub.publish('atualiza-lista-autores',novalistagem);
                 // this.setState({lista: resposta});//irá alterar o estado do componente FormularioAutor
                 /*Dentro do setstate temos um JSON com a variável lista e a resposta que é a nova listagem*/
-                this.props.callbackAtualizaListagem(resposta);
-			}.bind(this),//bind chamado para trabalhar com o this do react
+                // this.props.callbackAtualizaListagem(resposta);
+			},//.bind(this),bind chamado para trabalhar com o this do react
 			error: function(resposta){
 				console.log("erro");
 			}
@@ -104,7 +106,7 @@ export default class AutorBox extends Component {
     constructor() {
 		super();
         this.state = {lista : []};
-        this.atualizaListagem = this.atualizaListagem.bind(this);//Informamos no contrutor que a função atualizaListagem usará o this do React
+        // this.atualizaListagem = this.atualizaListagem.bind(this);//Informamos no contrutor que a função atualizaListagem usará o this do React
 	}
 
 
@@ -118,7 +120,13 @@ export default class AutorBox extends Component {
 					this.setState({lista:resposta});
 				}.bind(this)
 			}
-		);
+        );
+        
+        PubSub.subscribe('atualiza-lista-autores', function (topico, novalistagem) {
+            this.setState({
+                lista: novaLista
+            });
+        }.bind(this));
     }
 
     /*
@@ -126,14 +134,14 @@ export default class AutorBox extends Component {
     Dentro adicionaremos o setState() e passaremos o lista que deverá ser a
     novaLista.
     */
-    atualizaListagem(novaLista){
-        this.setState({lista:novaLista});
-    }
-
+   
+    // atualizaListagem(novaLista){
+    //     this.setState({lista:novaLista});
+    // }
     render(){
         return(
             <div>
-                <FormularioAutor callbackAtualizaListagem={this.atualizaListagem}/>
+                <FormularioAutor/>
                 <TabelaAutores lista={this.state.lista}/>
             </div>
         )

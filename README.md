@@ -53,3 +53,7 @@ armazenadas no estado do componente que já poderá ser aproveitada para primeir
 
 * **Higher-order Components** São os componentes responsáveis por encapsular um estado que será trabalhado por vários outros componentes e que comumente nomeamos
 utilizando o sufixo `Box`.  Depois, criá-lo, podemos passá-lo como argumento.
+
+## Por que usamos um High Order Component ?
+
+* Usamos para manter o estado compartilhado entre dois ou mais componentes. Dessa forma você tem mais componentes focados em visualização do que com a lógica em si.

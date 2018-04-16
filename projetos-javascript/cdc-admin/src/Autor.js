@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import InputCustomizado from './componentes/InputCustomizado';
 import PubSub from 'pubsub-js';
+import TratadorErros from './TratadorErros';
 
 class FormularioAutor extends Component{
 
@@ -35,7 +36,11 @@ class FormularioAutor extends Component{
                 // this.props.callbackAtualizaListagem(resposta);
 			},//.bind(this),bind chamado para trabalhar com o this do react
 			error: function(resposta){
-				console.log("erro");
+                if(resposta.status === 400){
+                   //recuperar quais foram os erros
+                   //exibir a mensagem de erro no campo 
+                    new TratadorErros().publicaErros(resposta.responseJSON);
+                }				
 			}
 		});
 	}

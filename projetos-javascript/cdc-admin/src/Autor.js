@@ -31,14 +31,14 @@ class FormularioAutor extends Component{
 			}),
 			success: function(novalistagem){
                 PubSub.publish('atualiza-lista-autores',novalistagem);
-                this.setState({nome:'',email:'',senha:''});               
+                this.setState({nome:'',email:'',senha:''});
 			}.bind(this),
 			error: function(resposta){
                 if(resposta.status === 400){
                    //recuperar quais foram os erros
-                   //exibir a mensagem de erro no campo 
+                   //exibir a mensagem de erro no campo
                     new TratadorErros().publicaErros(resposta.responseJSON);
-                }				
+                }
             },
             beforeSend: function(){
                 PubSub.publish("limpa-erros",{});
@@ -127,7 +127,7 @@ export default class AutorBox extends Component {
 				}.bind(this)
 			}
         );
-        
+
         PubSub.subscribe('atualiza-lista-autores', function (topico, novalistagem) {
             this.setState({
                 lista: novaLista
@@ -140,15 +140,21 @@ export default class AutorBox extends Component {
     Dentro adicionaremos o setState() e passaremos o lista que deverá ser a
     novaLista.
     */
-   
+
     // atualizaListagem(novaLista){
     //     this.setState({lista:novaLista});
     // }
     render(){
         return(
             <div>
+                <div className="header">
+                    <h1>Cadastro de Autores</h1>
+                </div>
+                <div className="content" id="content">
+                    {this.props.children}
                 <FormularioAutor/>
                 <TabelaAutores lista={this.state.lista}/>
+                </div>
             </div>
         )
     }

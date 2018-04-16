@@ -31,17 +31,18 @@ class FormularioAutor extends Component{
 			}),
 			success: function(novalistagem){
                 PubSub.publish('atualiza-lista-autores',novalistagem);
-                // this.setState({lista: resposta});//irá alterar o estado do componente FormularioAutor
-                /*Dentro do setstate temos um JSON com a variável lista e a resposta que é a nova listagem*/
-                // this.props.callbackAtualizaListagem(resposta);
-			},//.bind(this),bind chamado para trabalhar com o this do react
+                this.setState({nome:'',email:'',senha:''});               
+			}.bind(this),
 			error: function(resposta){
                 if(resposta.status === 400){
                    //recuperar quais foram os erros
                    //exibir a mensagem de erro no campo 
                     new TratadorErros().publicaErros(resposta.responseJSON);
                 }				
-			}
+            },
+            beforeSend: function(){
+                PubSub.publish("limpa-erros",{});
+            }
 		});
 	}
 

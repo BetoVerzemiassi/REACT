@@ -57,3 +57,9 @@ utilizando o sufixo `Box`.  Depois, criá-lo, podemos passá-lo como argumento.
 ## Por que usamos um High Order Component ?
 
 * Usamos para manter o estado compartilhado entre dois ou mais componentes. Dessa forma você tem mais componentes focados em visualização do que com a lógica em si.
+
+## Dominuindo o acoplamento entre componentes
+
+* Quando criamos o nosso High Order Component, também criamos uma função que deveria ser chamado pelo componente de formulário para que ele pudesse notificar que existia uma nova listagem. Discutimos que essa solução, por mais que funcione, acaba gerando um acoplamento considerável entre os componentes. Selecione qual foi a nossa saída para diminuir esse acoplamento.
+
+    * Usamos uma biblioteca de **Publish/Subscriber** para facilitar a comunicação e diminuir o acoplamento.

@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import './index.css';
+import {Router,Route} from 'react-router';
 
 ReactDOM.render(
-    <App />,
+    (<Router>
+        <Route path="/" component={App}/>
+        <Route path="/autor"/>
+        <Route path="/livro"/>
+    </Router>),
     document.getElementById('root')
 );
-registerServiceWorker();

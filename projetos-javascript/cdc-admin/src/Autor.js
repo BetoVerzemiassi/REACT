@@ -11,9 +11,9 @@ class FormularioAutor extends Component{
 		//state = variável disponibilizada pelo React
 		this.state = {lista : [],nome: '',email: '',senha: ''};
 		this.enviaForm = this.enviaForm.bind(this);
-        this.setNome = this.setNome.bind(this);
-        this.setEmail = this.setEmail.bind(this);
-        this.setSenha = this.setSenha.bind(this);
+        // this.salvaAlteracao = this.salvaAlteracao.bind(this,'nome');
+        // this.setEmail = this.setEmail.bind(this);
+        // this.setSenha = this.setSenha.bind(this);
     }
 
     enviaForm(evento){
@@ -44,34 +44,40 @@ class FormularioAutor extends Component{
                 PubSub.publish("limpa-erros",{});
             }
 		});
-	}
+    }
+
+    salvaAlteracao(nomeInput,evento){
+        var campoSendoAlterado = {};
+        campoSendoAlterado[nomeInput] = evento.target.value;
+        this.setState(campoSendoAlterado);//Poderia ser dessa forma ({[nomeInput]:evento.target.value});
+    }
 
 	/*Pegando informações de dentro de inputs com React*/
-	setNome(evento){
-		this.setState({nome: evento.target.value});
-	}
+	// setNome(evento){
+	// 	this.setState({nome: evento.target.value});
+	// }
 
-	setEmail(evento){
-		this.setState({email: evento.target.value});
-	}
+	// setEmail(evento){
+	// 	this.setState({email: evento.target.value});
+	// }
 
-	setSenha(evento){
-		this.setState({senha: evento.target.value});
-	}
+	// setSenha(evento){
+	// 	this.setState({senha: evento.target.value});
+	// }
 
     //Se temos um componente e queremos que ele retorne um HTML que será colocado na View, precisamos utilziar a função render()
     render(){
         return(
             <div className="pure-form pure-form-aligned">
-            <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm.bind(this)} method="post">
-            <InputCustomizado id="nome" type="text" name="nome" value={this.state.nome} onChange={this.setNome} label="Nome"/>
-            <InputCustomizado id="email" type="email" name="email" value={this.state.email} onChange={this.setEmail} label="Email"/>
-            <InputCustomizado id="senha" type="password" name="senha" value={this.state.senha} onChange={this.setSenha} label="Senha"/>
-            <div className="pure-control-group">
-            <label></label>
-            <button type="submit" className="pure-button pure-button-primary">Gravar</button>
-            </div>
-            </form>
+                <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm.bind(this)} method="post">
+                    <InputCustomizado id="nome" type="text" name="nome" value={this.state.nome} onChange={this.salvaAlteracao.bind(this,'nome')} label="Nome"/>
+                    <InputCustomizado id="email" type="email" name="email" value={this.state.email} onChange={this.salvaAlteracao.bind(this,'email')} label="Email"/>
+                    <InputCustomizado id="senha" type="password" name="senha" value={this.state.senha} onChange={this.salvaAlteracao.bind(this,'senha')} label="Senha"/>
+                    <div className="pure-control-group">
+                        <label></label>
+                        <button type="submit" className="pure-button pure-button-primary">Gravar</button>
+                    </div>
+                </form>
             </div>
         );
     }
